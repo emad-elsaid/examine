@@ -2,7 +2,7 @@ package examine
 
 import (
 	"fmt"
-	"log"
+	"log/slog"
 	"net/http"
 	"os"
 	"syscall"
@@ -51,21 +51,20 @@ func main() {
 	})
 
 	dbg := attachDebugger()
-	track(dbg)
-	functions(dbg)
-	go trace(dbg)
+	// functions(dbg)
+	trace(dbg, httpTracers)
 
-	fmt.Println("Examine => http://127.0.0.1:9000")
-	http.ListenAndServe(":9000", nil)
+	// fmt.Println("Examine => http://127.0.0.1:9000")
+	// http.ListenAndServe(":9000", nil)
 }
 
 func attachDebugger() *debugger.Debugger {
 	dbg, err := debugger.New(&debugger.Config{
 		AttachPid: os.Getppid(),
-		Backend:   "native",
+		Backend:   "default",
 	}, nil)
 	if err != nil {
-		fmt.Println("Err: ", err)
+		slog.Error(err.Error())
 		return nil
 	}
 
@@ -75,40 +74,16 @@ func attachDebugger() *debugger.Debugger {
 func functions(dbg *debugger.Debugger) {
 	funcs, _ := dbg.Functions("")
 	for _, f := range funcs {
-		fmt.Println(f)
+		slog.Info(f)
 	}
 }
 
-func track(dbg *debugger.Debugger) {
-	fs := []string{
-		"net/http.(*ServeMux).ServeHTTP",
-	}
-
-	for _, f := range fs {
-		_, err := dbg.CreateBreakpoint(&api.Breakpoint{
-			Name:         f,
-			FunctionName: f,
-		}, "", nil, false)
-		if err != nil {
-			log.Printf("Can't create BP: %s, %s", f, err)
-		}
-	}
-}
-
-func trace(dbg *debugger.Debugger) {
-	for {
-		dbg.TargetGroup().Continue()
-
-		state, err := dbg.State(false)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		if state.Exited {
-			os.Exit(0)
-		}
-
-		fmt.Printf("%v\n", state.CurrentThread.Function.Name())
+func printvar(vars []api.Variable) {
+	for _, v := range vars {
+		slog.Info("var",
+			"name", v.Name,
+			"type", v.Type,
+		)
+		fmt.Println(v.MultilineString("\t", ""))
 	}
 }

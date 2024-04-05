@@ -1,7 +1,10 @@
 github.com/cilium/ebpf v0.11.0 h1:V8gS/bTCCjX9uUnkUFUpPsksM8n1lXBAvHcpiFk1X2Y=
 github.com/cilium/ebpf v0.11.0/go.mod h1:WE7CZAnqOL2RouJ4f1uyNhqr2P4CCvXFIqdRDUgWsVs=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/emad-elsaid/types v0.0.4 h1:wk9ftd4uoRAdwDIJKzigAmexK05D0RWqNYdsYXxHZOg=
+github.com/emad-elsaid/types v0.0.4/go.mod h1:7A4ii8wOJCtw6WUyJjlNVpA/AoMEfj/r8Oi2l9q5FF4=
 github.com/go-delve/delve v1.22.1 h1:LQSF2sv+lP3mmOzMkadl5HGQGgSS2bFg2tbyALqHu8Y=
 github.com/go-delve/delve v1.22.1/go.mod h1:TfOb+G5H6YYKheZYAmA59ojoHbOimGfs5trbghHdLbM=
 github.com/hashicorp/golang-lru v1.0.2 h1:dV3g9Z/unq5DpblPpw+Oqcv4dU/1omnb4Ok8iPY6p1c=
