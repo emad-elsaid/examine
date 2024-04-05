@@ -10,7 +10,7 @@ import (
 
 type Tracer interface {
 	function() string
-	trace(*debugger.Debugger, *api.DebuggerState)
+	trace(*debugger.Debugger, *api.DebuggerState, *api.Thread, *api.Breakpoint)
 }
 
 var continueCmd = api.DebuggerCommand{
@@ -56,7 +56,7 @@ func trace(dbg *debugger.Debugger, tracers []Tracer) {
 
 		for _, t := range tracers {
 			if t.function() == bp.FunctionName {
-				t.trace(dbg, state)
+				t.trace(dbg, state, thread, bp)
 			}
 		}
 

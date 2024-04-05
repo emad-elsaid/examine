@@ -8,7 +8,6 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/go-delve/delve/service/api"
 	"github.com/go-delve/delve/service/debugger"
 )
 
@@ -90,15 +89,5 @@ func functions(dbg *debugger.Debugger) {
 	funcs, _ := dbg.Functions("")
 	for _, f := range funcs {
 		slog.Info(f)
-	}
-}
-
-func printvar(vars []api.Variable) {
-	for _, v := range vars {
-		slog.Info("var",
-			"name", v.Name,
-			"type", v.Type,
-		)
-		fmt.Println(v.MultilineString("\t", ""))
 	}
 }
