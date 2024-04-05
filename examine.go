@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"os/signal"
 	"syscall"
 
 	"github.com/go-delve/delve/service/api"
@@ -51,6 +52,12 @@ func main() {
 	})
 
 	dbg := attachDebugger()
+	if dbg == nil {
+		os.Exit(1)
+	}
+
+	go handleExit(dbg)
+
 	// functions(dbg)
 	trace(dbg, httpTracers)
 
@@ -69,6 +76,14 @@ func attachDebugger() *debugger.Debugger {
 	}
 
 	return dbg
+}
+
+func handleExit(dbg *debugger.Debugger) {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	for range c {
+		dbg.Detach(true)
+	}
 }
 
 func functions(dbg *debugger.Debugger) {
