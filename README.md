@@ -26,3 +26,13 @@ A drop-in Go package to trace your program automatically.
 # Known issues
 ## Can't print any variables if the program ran with `go run`
 Turns out `go run` doesn't include DWARF debugging information. so you have to `go build` then run the program
+
+## Couldn't attach to PID
+If you get this message:
+>ERROR Could not attach to pid 10042: this could be caused by a kernel security setting, try writing "0" to /proc/sys/kernel/yama/ptrace_scope
+
+You need to turn on `ptrace_scope` in your kernel by
+```shell
+sudo su
+echo "0" > /proc/sys/kernel/yama/ptrace_scope
+```
