@@ -60,7 +60,7 @@ func main() {
 	// functions(dbg)
 	trace(
 		dbg,
-		GenericTracer{functionName: "net/http.(*ServeMux).ServeHTTP"},
+		httpTracers...,
 	)
 
 	// fmt.Println("Examine => http://127.0.0.1:9000")
