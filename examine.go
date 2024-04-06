@@ -58,7 +58,10 @@ func main() {
 	go handleExit(dbg)
 
 	// functions(dbg)
-	trace(dbg, httpTracers)
+	trace(
+		dbg,
+		GenericTracer{functionName: "net/http.(*ServeMux).ServeHTTP"},
+	)
 
 	// fmt.Println("Examine => http://127.0.0.1:9000")
 	// http.ListenAndServe(":9000", nil)

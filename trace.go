@@ -18,7 +18,7 @@ var continueCmd = api.DebuggerCommand{
 	ReturnInfoLoadConfig: &loadArgs,
 }
 
-func trace(dbg *debugger.Debugger, tracers []Tracer) {
+func trace(dbg *debugger.Debugger, tracers ...Tracer) {
 	for _, t := range tracers {
 		_, err := dbg.CreateBreakpoint(&api.Breakpoint{
 			Name:         t.function(),
@@ -47,18 +47,20 @@ func trace(dbg *debugger.Debugger, tracers []Tracer) {
 			os.Exit(0)
 		}
 
-		thread := state.CurrentThread
-		bp := thread.Breakpoint
-		if bp == nil {
-			slog.Error("Current thread doesn't have a breakpoint")
-			continue
-		}
+		for _, thread := range state.Threads {
+			bp := thread.Breakpoint
+			if bp == nil {
+				if thread == state.CurrentThread {
+					slog.Error("Current thread doesn't have a breakpoint")
+				}
+				continue
+			}
 
-		for _, t := range tracers {
-			if t.function() == bp.FunctionName {
-				t.trace(dbg, state, thread, bp)
+			for _, t := range tracers {
+				if t.function() == bp.FunctionName {
+					t.trace(dbg, state, thread, bp)
+				}
 			}
 		}
-
 	}
 }
