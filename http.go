@@ -15,8 +15,6 @@ type ServeHTTP struct{}
 
 func (s ServeHTTP) function() string { return "net/http.(*ServeMux).ServeHTTP" }
 func (s ServeHTTP) trace(d *debugger.Debugger, state *api.DebuggerState, thread *api.Thread, bp *api.Breakpoint) {
-	slog.Info(s.function())
-
 	info := thread.BreakpointInfo
 	if bp == nil {
 		slog.Error("BreakpointInfo is nil", "tracer", s.function())
