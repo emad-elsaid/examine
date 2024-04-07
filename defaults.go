@@ -5,9 +5,9 @@ import (
 )
 
 var loadArgs = api.LoadConfig{
-	FollowPointers:     true,
-	MaxArrayValues:     10,
-	MaxStringLen:       100,
-	MaxStructFields:    10,
-	MaxVariableRecurse: 5,
+	FollowPointers:     false,
+	MaxArrayValues:     0,
+	MaxStringLen:       0,
+	MaxStructFields:    0,
+	MaxVariableRecurse: 0,
 }

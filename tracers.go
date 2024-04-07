@@ -12,6 +12,8 @@ type GenericTracer struct {
 }
 
 func (s GenericTracer) function() string { return s.functionName }
-func (s GenericTracer) trace(d *debugger.Debugger, state *api.DebuggerState, thread *api.Thread, bp *api.Breakpoint) {
+func (s GenericTracer) trace(d *debugger.Debugger, state *api.DebuggerState, thread *api.Thread, bp *api.Breakpoint) any {
 	slog.Info(s.function())
+
+	return nil
 }

@@ -14,23 +14,23 @@ var httpTracers = []Tracer{
 type ServeHTTP struct{}
 
 func (s ServeHTTP) function() string { return "net/http.(*ServeMux).ServeHTTP" }
-func (s ServeHTTP) trace(d *debugger.Debugger, state *api.DebuggerState, thread *api.Thread, bp *api.Breakpoint) {
+func (s ServeHTTP) trace(d *debugger.Debugger, state *api.DebuggerState, thread *api.Thread, bp *api.Breakpoint) any {
 	info := thread.BreakpointInfo
 	if bp == nil {
 		slog.Error("BreakpointInfo is nil", "tracer", s.function())
-		return
+		return nil
 	}
 
 	var args Variables = info.Arguments
 	if args == nil {
 		slog.Error("Arguments is nil", "tracer", s.function())
-		return
+		return nil
 	}
 
 	r := args.Name("r")
 	if r == nil {
 		slog.Error("Can't get argument: r")
-		return
+		return nil
 	}
 
 	r = r.Dereference()
@@ -47,5 +47,8 @@ func (s ServeHTTP) trace(d *debugger.Debugger, state *api.DebuggerState, thread 
 		slog.Error(path.Error())
 	}
 
-	slog.Info(s.function(), "method", method.String(), "path", path.String())
+	return map[string]string{
+		"method": method.String(),
+		"path":   path.String(),
+	}
 }
