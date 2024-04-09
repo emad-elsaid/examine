@@ -1,20 +1,35 @@
-Chart = G2.Chart
+const Chart = G2.Chart
 
+const id = 'container'
+const container = document.getElementById(id)
 const chart = new Chart({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    container: "container",
+    width: container.clientWidth,
+    height: container.clientHeight,
+    container: id,
 });
 
-chart
-    .point()
-    .data({
+chart.options({
+    data: {
         type: 'fetch',
         value: '/timeline.json',
-    })
-    .encode('x', 'Time')
-    .encode('y', 'Function')
-    .encode('color', 'File')
-    .axis('x', false)
+    },
+    type: 'point',
+    encode: {
+        x: 'Time',
+        y: 'Function'
+    },
+    style: {
+        stroke: 'black'
+    },
+    slider: {
+        x: {}
+    },
+    scrollbar: {
+        y: {}
+    },
+    axis: {
+        x: false
+    }
+})
 
 chart.render();
