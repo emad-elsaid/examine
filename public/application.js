@@ -25,10 +25,11 @@ chart.options({
         x: {}
     },
     scrollbar: {
-        y: {}
+        y: { ratio: 1 }
     },
     axis: {
-        x: false
+        x: {grid: true, label: false},
+        y: {grid: true}
     }
 })
 
